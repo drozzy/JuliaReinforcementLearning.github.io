@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149861753-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-149861753-1');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/assets/site/logo.svg">
+
+  
+  
+
+  <title>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="/css/custom.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- distill -->
+  <script src="/libs/distill/template.v2.8.0.js"></script>
+  
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #1fd1f9; background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%); " id="mainNav">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <span class="navbar-brand">
+          <a class="navbar-brand" href="/">
+            <!-- <img src="/assets/site/logo.svg" width="30" height="30" alt="logo" loading="lazy"> -->
+            JuliaReinforcementLearning
+          </a>
+      </span>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/get_started/">Get Started</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/guide/">Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://JuliaReinforcementLearning.github.io/ReinforcementLearning.jl/latest/">Doc</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/JuliaReinforcementLearning">Github</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+    <d-title><h1>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</h1><p>Test</p>
+</d-title>
+    
+    <hr class="franklin-toc-separator">
+<d-article class="franklin-content">
+<h3 class="franklin-toc-header">Table of content</h3>
+<div class="franklin-toc"><ol><li><a href="#prepare">Prepare</a></li></ol></div>
+</d-article>
+<hr class="franklin-toc-separator">
+
+<!-- Content appended here -->
+<d-article class="franklin-content"><h2 id="prepare"><a href="#prepare">Prepare</a></h2><!-- this is necessary!!! not sure why... -->
+<div></div></d-article><!-- CONTENT ENDS HERE -->
+          <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->
+
+    
+    
+
+    <d-appendix>
+    
+    
+</d-appendix>
+
+    <div class="distill-site-nav distill-site-footer">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <p>This website is built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> with the <a href="https://github.com/tlienart/DistillTemplate">DistillTemplate</a> (licensed under <a href="https://github.com/distillpub/template/blob/master/LICENSE">Apache License 2.0</a>) and <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>. The <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io">source code</a> of this website is licensed under <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/blob/master/LICENSE">MIT License</a>. The <a href="https://github.com/JuliaReinforcementLearning">JuliaReinforcementLearning</a> organization was first created by <a href="https://github.com/jbrea">Johanni Brea</a> and then co-maintained by <a href="https://github.com/findmyway">Jun Tian</a>. And we thank all the contributors <sup>[<a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/graphs/contributors">1</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningBase.jl/graphs/contributors">2</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/graphs/contributors">3</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl/graphs/contributors">4</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl/graphs/contributors">5</a>, <a href="https://github.com/JuliaReinforcementLearning/ArcadeLearningEnvironment.jl/graphs/contributors">6</a>]</sup> in this organization.</p>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+  </body>
+</html>

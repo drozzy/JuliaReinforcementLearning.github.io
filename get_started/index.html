@@ -16,9 +16,10 @@
   <link rel="icon" href="/assets/site/logo.svg">
 
   
-  
+   <link rel="stylesheet" href="/libs/highlight/github.min.css">
+   
 
-  <title>Get Started in 3 lines!</title>
+  <title>A Whirlwind Tour of ReinforcementLearning.jl</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -31,7 +32,23 @@
 
   <!-- distill -->
   <script src="/libs/distill/template.v2.8.0.js"></script>
-  
+  <d-front-matter>
+    <script id="distill-front-matter" type="text/json">
+        {
+    "authors": [
+        {
+            "author":"Jun Tian",
+            "authorURL":"https://github.com/findmyway",
+            "affiliation":"",
+            "affiliationURL":""
+        }
+    ],
+    "publishedDate":"2020-06-18T12:36:15.000+08:00",
+    "citationText":"Jun Tian, 2020"
+}
+    </script>
+</d-front-matter>
+
 </head>
 <body>
   <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #1fd1f9; background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%); " id="mainNav">
@@ -68,26 +85,79 @@
     </div>
 </nav>
 
-    <d-title><h1>Get Started in 3 lines!</h1><p>A Whirlwind of Re</p>
+    <d-title><h1>A Whirlwind Tour of ReinforcementLearning.jl</h1><p>Welcome to the world of reinforcement learning in Julia. Now let&#39;s get started in 3 lines&#33;</p>
 </d-title>
+    <d-byline></d-byline>
     
-    <hr class="franklin-toc-separator">
-<d-article class="franklin-content">
-<h3 class="franklin-toc-header">Table of content</h3>
-<div class="franklin-toc"><ol><li><a href="#wip">WIP</a></li></ol></div>
-</d-article>
-<hr class="franklin-toc-separator">
-
 <!-- Content appended here -->
-<d-article class="franklin-content"><h2 id="wip"><a href="#wip">WIP</a></h2><!-- this is necessary!!! not sure why... -->
+<d-article class="franklin-content"><h2 id="prepare"><a href="#prepare">Prepare</a></h2>
+<p>First things first, <a href="https://julialang.org/downloads/">download</a> and install the latest stable Julia version. ReinforcementLearning.jl is tested on all platforms, so just choose the one you are familiar with. If you already have Julia installed, please make sure that it is <code>v1.3</code> or above.</p>
+<aside>ReinforcementLearning.jl relies on some features introduced since <code>v1.3</code>, like <a href="https://docs.julialang.org/en/v1/base/multi-threading/index.html">MultiThreading</a>, and <a href="https://julialang.github.io/Pkg.jl/dev/artifacts/">Artifacts</a></aside>
+<p>Another useful tool is <a href="https://github.com/tensorflow/tensorboard">tensorboard</a> <d-footnote>You don&#39;t need to install the whole TensorFlow to use the TensorBoard. Behind the scene, ReinforcementLearning.jl uses <a href="https://github.com/PhilipVinc/TensorBoardLogger.jl">TensorBoardLogger.jl</a> to write data into the format that TensorBoard recoganizes.</d-footnote>. You can install it via <code>pip install tensorboard</code> with the python package installer <a href="https://pip.pypa.io/en/stable/installing/"><code>pip</code></a>.</p>
+<h2 id="get_started"><a href="#get_started">Get Started</a></h2>
+<p>Run <code>julia</code> in the command line &#40;or double-click the Julia executable&#41; and now you are in an interactive session &#40;also known as a read-eval-print loop or &quot;REPL&quot;&#41;. Then execute the following code:</p>
+<pre><code class="julia hljs">julia&gt; ] add ReinforcementLearning
+
+julia&gt; <span class="hljs-keyword">using</span> ReinforcementLearning
+
+julia&gt; run(E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>);</code></pre>
+<p>So what&#39;s happening here?</p>
+<ol>
+<li><p>In the first line, typing <code>&#93;</code> will bring you to the <em>Pkg</em> mode. <code>add ReinforcementLearning</code> will install the latest version of <code>ReinforcementLearning.jl</code> for you. And then remember to press backspace or ^C to get back to the normal mode.</p>
+</li>
+<li><p><code>using ReinforcementLearning</code> will bring the names exported in <code>ReinforcementLearning</code> into global scope. If this is your first time to run, you&#39;ll see <em>precompiling ReinforcementLearning</em>. And it may take a while.</p>
+</li>
+<li><p>The third line means, <code>run</code> an <strong>E</strong>xperiment named <code>JuliaRL_BasicDQN_CartPole</code>.</p>
+</li>
+</ol>
+<p>CartPole is considered to be one of the simplest environments for <strong>DRL&#40;Deep Reinforcement Learning&#41;</strong> algorithms testing. The state of the CartPole environment can be described with 4 numbers and the actions are two integers&#40;<code>1</code> and <code>2</code>&#41;. Before game terminates, agent can gain a reward of <code>&#43;1</code> for each step. And the game will be forced to end after 200 steps, thus the maximum reward of an episode is <strong>200</strong>. </p>
+<p>While the experiment is running, you&#39;ll see the following information and a progress bar. The information may be slightly different based on your platform and your current working directory. Note that the first run would be slow. On a mordern computer, the experiment should be finished in a minute.</p>
+
+<pre><code class="plaintext hljs">LoadError: UndefVarError: @E_cmd not defined
+in expression starting at none:1
+</code></pre>
+<p>Follow the instruction above and run <code>tensorboard --logdir /the/path/shown/above</code> and a link will be prompted &#40;typically it&#39;s <code>http://YourHost:6006/</code>&#41;. Now open it in your browser, you&#39;ll see a webpage like the following one:</p>
+<figure class="l-page text-center">
+    <img src="/assets/get_started/tensorboard_demo.png">
+    <figcaption>Here two important varialbes are logged: training <strong>loss</strong> per update and total <strong>reward</strong> of each episode during training. As you can see, our agent can reach the maximum reward after training for about 4k steps.</figcaption>
+</figure>
+
+<h2 id="exercise"><a href="#exercise">Exercise</a></h2>
+<p>Now that you already know how to run the experiment of <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_zoo/#ReinforcementLearningZoo.BasicDQNLearner">BasicDQN</a> algorithm with the CartPole environment. You are suggested to try some other algorithms <d-footnote>For the full list of supported algorithms, please visit <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl">ReinforcementLearningZoo.jl</a></d-footnote>:</p>
+<ul>
+<li><p><code>JuliaRL_DQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_PrioritizedDQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_Rainbow_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_IQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_A2C_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_A2CGAE_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_PPO_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_DDPG_Pendulum</code></p>
+</li>
+</ul>
+<h2 id="basic_components"><a href="#basic_components">Basic Components</a></h2>
+<p>&#91;WIP&#93;<!-- this is necessary!!! not sure why... -->
 <div></div></d-article><!-- CONTENT ENDS HERE -->
           <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->
 
     
     
+        
+
+
+    
 
     <d-appendix>
-    
+    <h3>Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/issues">create an issue</a> on the source repository.</p>
+
     
 </d-appendix>
 

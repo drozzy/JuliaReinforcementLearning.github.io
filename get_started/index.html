@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149861753-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-149861753-1');
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/assets/site/logo.svg">
+
+   <link rel="stylesheet" href="/libs/katex/katex.min.css">
+     
+   <link rel="stylesheet" href="/libs/highlight/github.min.css">
+   
+
+  <title>A Whirlwind Tour of ReinforcementLearning.jl</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="/css/custom.css" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+  <!-- distill -->
+  <script src="/libs/distill/template.v2.8.0.js"></script>
+  <d-front-matter>
+    <script id="distill-front-matter" type="text/json">
+        {
+    "authors": [
+        {
+            "author":"Jun Tian",
+            "authorURL":"https://github.com/findmyway",
+            "affiliation":"",
+            "affiliationURL":""
+        }
+    ],
+    "publishedDate":"2020-06-18T12:36:15.000+08:00",
+    "citationText":"Jun Tian, 2020"
+}
+    </script>
+</d-front-matter>
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #1fd1f9; background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%); " id="mainNav">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <span class="navbar-brand">
+          <a class="navbar-brand" href="/">
+            <!-- <img src="/assets/site/logo.svg" width="30" height="30" alt="logo" loading="lazy"> -->
+            JuliaReinforcementLearning
+          </a>
+      </span>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/get_started/">Get Started</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/guide/">Guide</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://JuliaReinforcementLearning.github.io/ReinforcementLearning.jl/latest/">Doc</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/JuliaReinforcementLearning">Github</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+    <d-title><h1>A Whirlwind Tour of ReinforcementLearning.jl</h1><p>Welcome to the world of reinforcement learning in Julia. Now let&#39;s get started in 3 lines&#33;</p>
+</d-title>
+    <d-byline></d-byline>
+    
+<!-- Content appended here -->
+<d-article class="franklin-content"><h2 id="prepare"><a href="#prepare">Prepare</a></h2>
+<p>First things first, <a href="https://julialang.org/downloads/">download</a> and install Julia of the latest stable version. ReinforcementLearning.jl is tested on all platforms, so just choose the one you are familiar with. If you already have Julia installed, please make sure that it is <code>v1.3</code> or above.</p>
+<aside>ReinforcementLearning.jl relies on some features introduced since <code>v1.3</code>, like <a href="https://docs.julialang.org/en/v1/base/multi-threading/index.html">MultiThreading</a>, and <a href="https://julialang.github.io/Pkg.jl/dev/artifacts/">Artifacts</a></aside>
+<p>Another useful tool is <a href="https://github.com/tensorflow/tensorboard">tensorboard</a> <d-footnote>You don&#39;t need to install the whole TensorFlow to use the TensorBoard. Behind the scene, ReinforcementLearning.jl uses <a href="https://github.com/PhilipVinc/TensorBoardLogger.jl">TensorBoardLogger.jl</a> to write data into the format that TensorBoard recognizes.</d-footnote>. You can install it via <code>pip install tensorboard</code> with the python package installer <a href="https://pip.pypa.io/en/stable/installing/"><code>pip</code></a>.</p>
+<h2 id="get_started"><a href="#get_started">Get Started</a></h2>
+<p>Run <code>julia</code> in the command line &#40;or double-click the Julia executable&#41; and now you are in an interactive session &#40;also known as a read-eval-print loop or &quot;REPL&quot;&#41;. Then execute the following code:</p>
+<pre><code class="julia hljs">] add ReinforcementLearning
+
+<span class="hljs-keyword">using</span> ReinforcementLearning
+
+run(E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>);</code></pre>
+<p>So what&#39;s happening here?</p>
+<ol>
+<li><p>In the first line, typing <code>&#93;</code> will bring you to the <em>Pkg</em> mode. <code>add ReinforcementLearning</code> will install the latest version of <code>ReinforcementLearning.jl</code> for you. And then remember to press backspace or ^C to get back to the normal mode.</p>
+</li>
+<li><p><code>using ReinforcementLearning</code> will bring the names exported in <code>ReinforcementLearning</code> into global scope. If this is your first time to run, you&#39;ll see <em>precompiling ReinforcementLearning</em>. And it may take a while.</p>
+</li>
+<li><p>The third line means, <code>run</code> an <strong>E</strong>xperiment named <code>JuliaRL_BasicDQN_CartPole</code> <d-footnote>The <code>E&#96;JuliaRL_BasicDQN_CartPole&#96; </code> is a handy <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/index.html#Non-Standard-String-Literals-1">command literal</a> to instantiate a prebuilt experiment.</d-footnote>.</p>
+</li>
+</ol>
+<p>CartPole is considered to be one of the simplest environments for DRL &#40;Deep Reinforcement Learning&#41; algorithms testing. The state of the CartPole environment can be described with 4 numbers and the actions are two integers&#40;<code>1</code> and <code>2</code>&#41;. Before game terminates, agent can gain a reward of <code>&#43;1</code> for each step. And the game will be forced to end after 200 steps, thus the maximum reward of an episode is <code>200</code>. </p>
+<p>While the experiment is running, you&#39;ll see the following information and a progress bar. The information may be slightly different based on your platform and your current working directory. Note that the first run would be slow. On a modern computer, the experiment should be finished in a minute.</p>
+
+<pre><code class="plaintext hljs">This experiment uses three dense layers to approximate the Q value.
+The testing environment is CartPoleEnv.
+
+Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200620142746`
+You can also view the tensorboard logs with `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200620142746/tb_log`
+To load the agent and statistic info:
+```
+agent = RLCore.load(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200620142746&quot;, Agent)
+BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200620142746&quot;, &quot;stats.bson&quot;) total_reward_per_episode time_per_step
+```
+
+</code></pre>
+<p>Follow the instruction above and run <code>tensorboard --logdir /the/path/shown/above</code>, then a link will be prompted &#40;typically it&#39;s <code>http://YourHost:6006/</code>&#41;. Now open it in your browser, you&#39;ll see a webpage similar to the following one:</p>
+<figure class="l-page text-center">
+    <img src="/get_started/tensorboard_demo.png">
+    <figcaption>Here two important variables are logged: training <strong>loss</strong> per update and total <strong>reward</strong> of each episode during training. As you can see, our agent can reach the maximum reward after training for about 4k steps.</figcaption>
+</figure>
+
+<h2 id="exercise"><a href="#exercise">Exercise</a></h2>
+<p>Now that you already know how to run the experiment of <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_zoo/#ReinforcementLearningZoo.BasicDQNLearner">BasicDQN</a> algorithm with the CartPole environment. You are suggested to try some other algorithms <d-footnote>For the full list of supported algorithms, please visit <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl">ReinforcementLearningZoo.jl</a></d-footnote>:</p>
+<ul>
+<li><p><code>JuliaRL_DQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_PrioritizedDQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_Rainbow_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_IQN_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_A2C_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_A2CGAE_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_PPO_CartPole</code></p>
+</li>
+<li><p><code>JuliaRL_DDPG_Pendulum</code></p>
+</li>
+</ul>
+<h2 id="basic_components"><a href="#basic_components">Basic Components</a></h2>
+<p>Each experiment at least contains the following two components: <strong>agent</strong> and <strong>env</strong>.</p>
+<figure class="l-body text-center">
+    <img src="/get_started/agent_env_relation.png">
+    <figcaption>The relation between <strong>agent</strong> and <strong>env</strong>. The agent takes in an observation from environment and feed an action back to the environment. This process repeats until a stop condition meets. During this time, the agent needs to improve its policy in order to maximize the expected total reward.</figcaption>
+</figure>
+
+<p>To control the experiment and record some data, another two important components are also included: <code>stop_condition</code> and <code>hook</code>. When executing <code>run&#40;E&#96;JuliaRL_BasicDQN_CartPole&#96;&#41;</code>, it will be dispatched to <code>run&#40;agent, env, stop_condition, hook&#41;</code>. So it&#39;s just the same as running the following lines:</p>
+<aside><a href="https://docs.julialang.org/en/v1/manual/methods/">Multiple Dispatch</a> is fully utilized in this package. And it&#39;s the secret of high extensibility.</aside>
+<pre><code class="julia hljs">experiment     = E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>
+agent          = experiment.agent
+env            = experiment.env
+stop_condition = experiment.stop_condition
+hook           = experiment.hook
+
+run(agent, env, stop_condition, hook)</code></pre>
+<h3 id="stop_condition"><a href="#stop_condition">Stop Condition</a></h3>
+<p>A stop condition is used to determine when to stop an experiment. Two typical ones are <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.StopAfterStep"><code>StopAfterStep</code></a> and <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.StopAfterEpisode"><code>StopAfterEpisode</code></a>. As you may have guessed, the above experiment uses <code>StopAfterStep&#40;10_000&#41;</code> as the stop condition. Try to change the stop condition and see if it works as expected.</p>
+<pre><code class="julia hljs">experiment = E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>
+run(experiment.agent, experiment.env, StopAfterEpisode(<span class="hljs-number">100</span>), experiment.hook)</code></pre>
+<p>Check out the full list of available stop conditions <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Stop-Conditions-1">here</a>. You can also learn <a href="https://juliareinforcementlearning.org/guide/#how_to_write_a_customized_stop_condition">how to write a customized stop condition</a>.</p>
+<h3 id="hook"><a href="#hook">Hook</a></h3>
+<p>A hook is usually used to collect experiment data or modify agent/env while running. You can check the list of provided hooks <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Hooks-1">here</a>. Two common hooks are <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.TotalRewardPerEpisode"><code>TotalRewardPerEpisode</code></a> and <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.StepsPerEpisode"><code>StepsPerEpisode</code></a>.</p>
+<pre><code class="julia hljs"><span class="hljs-keyword">using</span> Plots
+
+experiment = E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>
+hook = TotalRewardPerEpisode()
+run(experiment.agent, experiment.env, experiment.stop_condition, hook)
+plot(hook.rewards)</code></pre>
+<aside>Remember to install Plots by <code>&#93; add Plots</code> first.</aside>
+<figure class="l-body text-center">
+    <img src="/assets/get_started/output/episode.svg">
+    <figcaption>Total reward of each episode during training.</figcaption>
+</figure>
+
+<p>Still wondering how is the tensorboard logging generated? Learn <a href="https://juliareinforcementlearning.org/guide/#how_to_use_tensorboard">how to use tensorboard</a> and <a href="https://juliareinforcementlearning.org/guide/#how_to_write_a_customized_hook">how to write a customized hook</a>.</p>
+<h3 id="environment"><a href="#environment">Environment</a></h3>
+<p>In the above experiment, a <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_envs/#ReinforcementLearningEnvironments.CartPoleEnv"><code>CartPoleEnv</code></a> is created. Here we&#39;ll also use it to demonstrate some common methods that an environment should implement:</p>
+<pre><code class="julia hljs">env = CartPoleEnv()
+
+reset!(env)         <span class="hljs-comment"># reset env to the initial state</span>
+
+obs = observe(env)  <span class="hljs-comment"># get an observation from the env</span>
+get_state(obs)      <span class="hljs-comment"># get the state from observation, usually it&#x27;s a tensor</span>
+get_reward(obs)     <span class="hljs-comment"># get the reward since last interaction with environment</span>
+get_terminal(obs)   <span class="hljs-comment"># check if the game is terminated or not</span>
+
+action_space = get_action_space(env)
+env(rand(action_space))  <span class="hljs-comment"># feed a random action to the environment</span></code></pre>
+<p>You may also read the detailed description for <a href="http://juliareinforcementlearning.org/guide/#how_to_write_a_customized_environment">how to write a customized environment</a>.</p>
+<h3 id="agent"><a href="#agent">Agent</a></h3>
+<p>In a nutshell, agent is a functional object which takes in an observation and returns an action.</p>
+<pre><code class="julia hljs">agent = experiment.agent
+obs = observe(env)
+action = agent(obs)</code></pre>
+<p>In the above experiment, we created an agent of type <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.Agent"><code>Agent</code></a>, which is the most common and the default agent in this package. Inside of the agent, a <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_zoo/#ReinforcementLearningZoo.BasicDQNLearner"><code>BasicDQNLearner</code></a> is used to estimate the state-action value. Here we can modify it in-place to change some parameters.</p>
+<pre><code class="julia hljs">experiment = E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>
+experiment.agent.policy.learner.<span class="hljs-literal">γ</span> = <span class="hljs-number">0.98</span>
+hook = TotalRewardPerEpisode()
+
+run(experiment.agent, experiment.env, experiment.stop_condition, hook)
+plot(hook.rewards)</code></pre>
+<figure class="l-body text-center">
+    <img src="/assets/get_started/output/reward_gamma.svg">
+    <figcaption>Total reward of each episode during training with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>γ</mi><mo>=</mo><mn>0.98</mn></mrow><annotation encoding="application/x-tex">\gamma = 0.98</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05556em;">γ</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">9</span><span class="mord">8</span></span></span></span>.</figcaption>
+</figure>
+
+<p>Try to change some other components of <code>agent.policy.learner</code> and see how the rewards are affected.</p>
+<h2 id="whats_next"><a href="#whats_next">What&#39;s Next?</a></h2>
+<p>Now you are familiar with some basic concepts in ReinforcementLearning.jl, you are encouraged to read the <a href="/guide">guide</a> section to have a better understanding of how each components are composed together. In the <a href="/blog">blog</a> section, we&#39;ll share some details of how algorithms in this package are implemented.<!-- this is necessary!!! not sure why... -->
+<div></div></d-article><!-- CONTENT ENDS HERE -->
+          <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->
+
+    
+        
+
+
+
+    
+    
+        
+
+
+    
+
+    <d-appendix>
+    <h3>Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/issues">create an issue</a> on the source repository.</p>
+
+    
+</d-appendix>
+
+    <div class="distill-site-nav distill-site-footer">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <p>This website is built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> with the <a href="https://github.com/tlienart/DistillTemplate">DistillTemplate</a> (licensed under <a href="https://github.com/distillpub/template/blob/master/LICENSE">Apache License 2.0</a>) and <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>. The <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io">source code</a> of this website is licensed under <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/blob/master/LICENSE">MIT License</a>. The <a href="https://github.com/JuliaReinforcementLearning">JuliaReinforcementLearning</a> organization was first created by <a href="https://github.com/jbrea">Johanni Brea</a> and then co-maintained by <a href="https://github.com/findmyway">Jun Tian</a>. And we thank all the contributors <sup>[<a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/graphs/contributors">1</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningBase.jl/graphs/contributors">2</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/graphs/contributors">3</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl/graphs/contributors">4</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl/graphs/contributors">5</a>, <a href="https://github.com/JuliaReinforcementLearning/ArcadeLearningEnvironment.jl/graphs/contributors">6</a>]</sup> in this organization.</p>
+        </div>
+        <div class="col-md-3"></div>
+      </div>
+    </div>
+  </body>
+</html>

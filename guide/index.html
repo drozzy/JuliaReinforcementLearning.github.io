@@ -44,7 +44,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-06-22T04:45:03.895",
+    "publishedDate":"2020-06-23T04:48:23.004",
     "citationText":"Jun Tian, 2020"
 }
     </script>
@@ -92,7 +92,7 @@
     <hr class="franklin-toc-separator">
 <d-article class="franklin-content">
 <h3 class="franklin-toc-header">Table of content</h3>
-<div class="franklin-toc"><ol><li><a href="#what_is_an_agent">What is an agent?</a><ol><li><a href="#policy">Policy</a></li><li><a href="#trajectory">Trajectory</a></li><li><a href="#a_concrete_example">A concrete example</a></li></ol></li><li><a href="#how_to_write_a_customized_environment">How to write a customized environment?</a></li><li><a href="#how_to_write_a_customized_stop_condition">How to write a customized stop condition?</a></li><li><a href="#how_to_write_a_customized_hook">How to write a customized hook?</a></li><li><a href="#how_to_use_tensorboard">How to use TensorBoard?</a></li></ol></div>
+<div class="franklin-toc"><ol><li><a href="#what_is_an_agent">What is an agent?</a><ol><li><a href="#policy">Policy</a></li><li><a href="#trajectory">Trajectory</a></li><li><a href="#a_concrete_example">A concrete example</a></li></ol></li><li><a href="#how_to_write_a_customized_environment">How to write a customized environment?</a></li><li><a href="#how_to_write_a_customized_stop_condition">How to write a customized stop condition?</a></li><li><a href="#how_to_write_a_customized_hook">How to write a customized hook?</a></li><li><a href="#how_to_use_tensorboard">How to use TensorBoard?</a></li><li><a href="#how_to_evaluate_an_agent_during_training">How to evaluate an agent during training?</a></li></ol></div>
 </d-article>
 <hr class="franklin-toc-separator">
 
@@ -222,7 +222,24 @@ observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:
     with_logger(lg) <span class="hljs-keyword">do</span>
         <span class="hljs-meta">@info</span> <span class="hljs-string">&quot;training&quot;</span> loss = agent.policy.learner.loss
     <span class="hljs-keyword">end</span>
-<span class="hljs-keyword">end</span>,</code></pre></p>
+<span class="hljs-keyword">end</span>,</code></pre>
+<h2 id="how_to_evaluate_an_agent_during_training"><a href="#how_to_evaluate_an_agent_during_training">How to evaluate an agent during training?</a></h2>
+<p>Well, just like the matryoshka doll, we run an experiment inside an experiment with a hook&#33;</p>
+<pre><code class="julia hljs">run(
+    agent,
+    env,
+    stop_condition
+    DoEveryNStep(EVALUATION_FREQ) <span class="hljs-keyword">do</span> t, agent, env, obs
+        Flux.testmode!(agent)
+        run(agent, env, eval_stop_condition, eval_hook)
+        Flux.trainmode!(agent)
+    <span class="hljs-keyword">end</span>
+    )</code></pre>
+<figure class="l-body text-center">
+    <img src="/guide/dolls.gif">
+    <figcaption>From https://cdn.dribbble.com/users/882503/screenshots/3744602/dolls.gif</figcaption>
+</figure>
+</p>
 <!-- this is necessary!!! not sure why... -->
 <div></div></d-article><!-- CONTENT ENDS HERE -->
           <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->

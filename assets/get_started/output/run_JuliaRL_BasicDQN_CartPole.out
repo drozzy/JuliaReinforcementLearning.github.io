@@ -1,11 +1,11 @@
 This experiment uses three dense layers to approximate the Q value.
 The testing environment is CartPoleEnv.
 
-Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200623045806`
-You can also view the tensorboard logs with `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200623045806/tb_log`
+Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200709090152`
+You can also view the tensorboard logs with `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200709090152/tb_log`
 To load the agent and statistic info:
 ```
-agent = RLCore.load("/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200623045806", Agent)
-BSON.@load joinpath("/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200623045806", "stats.bson") total_reward_per_episode time_per_step
+agent = RLCore.load("/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200709090152", Agent)
+BSON.@load joinpath("/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_20200709090152", "stats.bson") total_reward_per_episode time_per_step
 ```
 

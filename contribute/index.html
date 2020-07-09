@@ -18,7 +18,7 @@
   
   
 
-  <title>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</title>
+  <title>Call for Contributions</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -31,7 +31,23 @@
 
   <!-- distill -->
   <script src="/libs/distill/template.v2.8.0.js"></script>
-  
+  <d-front-matter>
+    <script id="distill-front-matter" type="text/json">
+        {
+    "authors": [
+        {
+            "author":"Jun Tian",
+            "authorURL":"https://github.com/findmyway",
+            "affiliation":"",
+            "affiliationURL":""
+        }
+    ],
+    "publishedDate":"2020-07-09T08:53:36.356",
+    "citationText":"Jun Tian, 2020"
+}
+    </script>
+</d-front-matter>
+
 </head>
 <body>
   <nav class="navbar navbar-expand-lg  navbar-dark fixed-top" style="background-color: #1fd1f9; background-image: linear-gradient(315deg, #1fd1f9 0%, #b621fe 74%); " id="mainNav">
@@ -71,18 +87,73 @@
     </div>
 </nav>
 
-    <d-title><h1>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</h1><p>Test</p>
+    <d-title><h1>Call for Contributions</h1><p>Reinforcement learning has undergone tremendous progress in recent years. The growing number of algorithms begets the need for comprehensive tools and implementations. Thus we call for all kinds of contributions from the community, including bug reports, feature proposals and implementations of new algorithms or reinforcement learning environments. This page is used to track what we hope to be added in the next few years.</p>
 </d-title>
+    <d-byline></d-byline>
     
-    <hr class="franklin-toc-separator">
-<d-article class="franklin-content">
-<h3 class="franklin-toc-header">Table of content</h3>
-<div class="franklin-toc"><ol><li><a href="#prepare">Prepare</a></li></ol></div>
-</d-article>
-<hr class="franklin-toc-separator">
-
 <!-- Content appended here -->
-<d-article class="franklin-content"><h2 id="prepare"><a href="#prepare">Prepare</a></h2><!-- this is necessary!!! not sure why... -->
+<d-article class="franklin-content"><h2 id="environments"><a href="#environments">Environments</a></h2>
+<p>Many reinforcement learning environments in the Python world are not available in Julia yet. Though we can leverage <a href="https://github.com/JuliaPy/PyCall.jl">PyCall.jl</a> to interact with them, the overheads usually make this approach unacceptable. Following are some experiments we&#39;d like to have, either by wrapping the underlying C/C&#43;&#43; libraries or rewriting in Julia from scratch.</p>
+<ul>
+<li><p><a href="https://github.com/bulletphysics/bullet3">bullet3</a>. There&#39;re some discussions about how to write a wrapper <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl/issues/15">here</a>. ⭐⭐⭐</p>
+</li>
+<li><p><a href="https://github.com/datamllab/rlcard">rlcard</a>. It is suggested to be rewritten in Julia.⭐</p>
+</li>
+<li><p><a href="https://github.com/deepmind/boxoban-levels">boxoban-levels</a> and <a href="https://github.com/mpSchrader/gym-sokoban">mpSchrader/gym-sokoban</a>. ⭐</p>
+</li>
+<li><p><a href="https://github.com/maximecb/gym-minigrid">gym-minigrid</a>. Need a great design and rewritten in Julia.⭐</p>
+</li>
+<li><p><a href="https://github.com/openai/procgen">procgen</a>. Environments in Procgen are written in C. One key feature is that Procgen environments are randomized.⭐⭐</p>
+</li>
+<li><p><a href="https://github.com/PettingZoo-Team/MAgent">MAgent</a>. ⭐⭐</p>
+</li>
+</ul>
+<aside>Here ⭐ means the difficulty.</aside>
+<p>Beside writing environments, it would be great if a unified wrapper is also provided in <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl">ReinforcementLearningEnvironments.jl</a>.</p>
+<h2 id="algorithms"><a href="#algorithms">Algorithms</a></h2>
+<p>Note that each algorithm is suggested to provide at least one reproducible experiment.</p>
+<h3 id="q-learning_related"><a href="#q-learning_related">Q-Learning Related</a></h3>
+<ul>
+<li><p>QRDQN<d-cite key="dabney2018distributional"></d-cite>.</p>
+</li>
+<li><p>FQF<d-cite key="yang2019fully"></d-cite>. This is the new SOTA among distributional methods.</p>
+</li>
+</ul>
+<h3 id="policy_gradient"><a href="#policy_gradient">Policy Gradient</a></h3>
+<ul>
+<li><p>Soft Actor-Critic<d-cite key="haarnoja2018soft"></d-cite></p>
+</li>
+<li><p>Twin Delayed DDPG<d-cite key="dankwa2019twin"></d-cite></p>
+</li>
+</ul>
+<h3 id="model_based"><a href="#model_based">Model Based</a></h3>
+<ul>
+<li><p>MuZero<d-cite key="schrittwieser2019mastering"></d-cite></p>
+</li>
+</ul>
+<h3 id="counterfactual_regret"><a href="#counterfactual_regret">Counterfactual Regret</a></h3>
+<ul>
+<li><p>Counterfactual multi-agent policy gradients<d-cite key="foerster2018counterfactual"></d-cite></p>
+</li>
+<li><p>Deep CFR<d-cite key="brown2019deep"></d-cite></p>
+</li>
+</ul>
+<h3 id="monte_carlo_tree_search"><a href="#monte_carlo_tree_search">Monte Carlo Tree Search</a></h3>
+<h2 id="infrastructures"><a href="#infrastructures">Infrastructures</a></h2>
+<h3 id="visualization"><a href="#visualization">Visualization</a></h3>
+<ul>
+<li><p>Integration with <a href="https://github.com/waralex/Dashboards.jl">Dashboards.jl</a>.</p>
+</li>
+<li><p>Create custom recipes in <a href="http://makie.juliaplots.org/">Maike.jl</a>.</p>
+</li>
+</ul>
+<h3 id="distributed_computing"><a href="#distributed_computing">Distributed Computing</a></h3>
+<h3 id="other_backends"><a href="#other_backends">Other Backends</a></h3>
+<ul>
+<li><p><a href="https://github.com/FluxML/Torch.jl">Torch.jl</a></p>
+</li>
+</ul>
+<!-- this is necessary!!! not sure why... -->
 <div></div></d-article><!-- CONTENT ENDS HERE -->
           <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->
 
@@ -90,8 +161,10 @@
     
 
     <d-appendix>
-    
-    
+    <h3>Corrections</h3>
+<p>If you see mistakes or want to suggest changes, please <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/issues">create an issue</a> on the source repository.</p>
+
+    <d-bibliography src="/contribute/bibliography.bib"></d-bibliography>
 </d-appendix>
 
     <div class="distill-site-nav distill-site-footer">

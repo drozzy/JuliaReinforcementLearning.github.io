@@ -44,7 +44,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-07-09T08:53:38.206",
+    "publishedDate":"2020-08-06T14:51:51.45",
     "citationText":"Jun Tian, 2020"
 }
     </script>
@@ -114,7 +114,7 @@
 <p><em>&quot;So what is the definition of agent in this package?&quot;</em></p>
 <p>As we have said in the <a href="/get_started#agent">Get Started</a> section:</p>
 <blockquote>
-<p>agent is a functional object which takes in an observation and returns an action</p>
+<p>agent is a functional object which takes in an environment and returns an action</p>
 </blockquote>
 <p><em>&quot;Nonono, I mean how to understand the Agent data structure used in this package.&quot;</em></p>
 <p>Well, though it&#39;s not easy to fully understand all the functionalities for the first time, an agent simply contains two parts:</p>
@@ -125,16 +125,16 @@
 </li>
 </ul>
 <h3 id="policy"><a href="#policy">Policy</a></h3>
-<p>Similar to agent, a policy is also <em>a functional object which takes in an observation and returns an action</em>.</p>
+<p>Similar to agent, a policy is also <em>a functional object which takes in an environment and returns an action</em>.</p>
 <aside>In Reinforcement Learning, people usually like to use the character <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">\pi</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">π</span></span></span></span> to represent policy.</aside>
 <p><em>&quot;What? So why not just call it agent?&quot;</em></p>
-<p>Because in our design, policy is a more low-level concept compared to agent. You can think of agent as an orchestrator. It passes observations and actions between policy and environment. In the meanwhile, an agent will record some useful data into <strong>trajectory</strong> <d-footnote>People usually call it experience replay buffer. However, we choose the name of <em>trajectory</em> here because it is more general. It can be used to store not only experiences but also some intermediate data.</d-footnote> and generate training data to update policy at appropriate time.</p>
+<p>Because in our design, policy is a more low-level concept compared to agent. You can think of agent as an orchestrator. It passes states and actions between inner policy and environment. In the meanwhile, an agent will record some useful data into <strong>trajectory</strong> <d-footnote>People usually call it experience replay buffer. However, we choose the name of <em>trajectory</em> here because it is more general. It can be used to store not only experiences but also some intermediate data.</d-footnote> and generate training data to update the inner policy at appropriate time.</p>
 <p>The simplest policy is <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_base/#ReinforcementLearningBase.RandomPolicy"><code>RandomPolicy</code></a>. It doesn&#39;t need to be updated at all.</p>
 <pre><code class="julia hljs"><span class="hljs-keyword">using</span> ReinforcementLearning
 env = CartPoleEnv()
 p = RandomPolicy(env)
-a = p(observe(env))</code></pre>
-<p>Another more common policy is <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.QBasedPolicy"><code>QBasedPolicy</code></a>. It first maps an observation into action values via a Q <code>learner</code>, then an <code>explorer</code> is applied to get the final action. One of the most common explorer is <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Explorers-1"><code>EpsilonGreedyExplorer</code></a>. For a full list of available explorers, please visit the <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Explorers-1">doc</a>.</p>
+a = p(env)</code></pre>
+<p>Another more common policy is <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.QBasedPolicy"><code>QBasedPolicy</code></a>. It first maps a state into action values via a Q <code>learner</code>, then an <code>explorer</code> is applied to get the final action. One of the most common explorer is <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Explorers-1"><code>EpsilonGreedyExplorer</code></a>. For a full list of available explorers, please visit the <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#Explorers-1">doc</a>.</p>
 <figure class="l-body text-center">
     <img src="/guide/q_based_policy.png">
     <figcaption>A visual explanation of <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.QBasedPolicy"><code>QBasedPolicy</code></a> in a maze environment.</figcaption>
@@ -153,29 +153,33 @@ empty!(t)</code></pre>
 
 <h3 id="a_concrete_example"><a href="#a_concrete_example">A concrete example</a></h3>
 <p>The following code constructs an agent to use the <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_zoo/#ReinforcementLearningZoo.BasicDQNLearner"><code>BasicDQNLearner</code></a>. It is the same with the one used in the <code>JuliaRL_BasicDQN_CartPole</code> experiment.</p>
-<pre><code class="julia hljs">env = CartPoleEnv(; T = <span class="hljs-built_in">Float32</span>, seed = <span class="hljs-number">11</span>)
-ns, na = length(rand(get_observation_space(env))), length(get_action_space(env))
+<pre><code class="julia hljs"><span class="hljs-keyword">using</span> ReinforcementLearning
+<span class="hljs-keyword">using</span> Random
+<span class="hljs-keyword">using</span> Flux
+rng = <span class="hljs-built_in">MersenneTwister</span>(<span class="hljs-number">123</span>)
+env = CartPoleEnv(;T = <span class="hljs-built_in">Float32</span>, rng = rng)
+ns, na = length(get_state(env)), length(get_actions(env))
 agent = Agent(
     policy = QBasedPolicy(
         learner = BasicDQNLearner(
             approximator = NeuralNetworkApproximator(
                 model = Chain(
-                    Dense(ns, <span class="hljs-number">128</span>, relu; initW = seed_glorot_uniform(seed = <span class="hljs-number">17</span>)),
-                    Dense(<span class="hljs-number">128</span>, <span class="hljs-number">128</span>, relu; initW = seed_glorot_uniform(seed = <span class="hljs-number">23</span>)),
-                    Dense(<span class="hljs-number">128</span>, na; initW = seed_glorot_uniform(seed = <span class="hljs-number">39</span>)),
+                    Dense(ns, <span class="hljs-number">128</span>, relu; initW = glorot_uniform(rng)),
+                    Dense(<span class="hljs-number">128</span>, <span class="hljs-number">128</span>, relu; initW = glorot_uniform(rng)),
+                    Dense(<span class="hljs-number">128</span>, na; initW = glorot_uniform(rng)),
                 ) |&gt; cpu,
                 optimizer = ADAM(),
             ),
             batch_size = <span class="hljs-number">32</span>,
             min_replay_history = <span class="hljs-number">100</span>,
             loss_func = huber_loss,
-            seed = <span class="hljs-number">22</span>,
+            rng = rng,
         ),
         explorer = EpsilonGreedyExplorer(
             kind = :exp,
             ϵ_stable = <span class="hljs-number">0.01</span>,
             decay_steps = <span class="hljs-number">500</span>,
-            seed = <span class="hljs-number">33</span>,
+            rng = rng,
         ),
     ),
     trajectory = CircularCompactSARTSATrajectory(
@@ -185,17 +189,16 @@ agent = Agent(
     ),
 )</code></pre>
 <aside>You might have noticed that <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> is used here to build the deep learning model. With the abstraction layer of <code>Approximator</code>, we can replace Flux.jl with Knet.jl or even PyTorch or TensorFlow.</aside>
-<p>In the construction part of <code>BasicDQNLearner</code>, a <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.NeuralNetworkApproximator"><code>NeuralNetworkApproximator</code></a> is used to estimate the Q value. The core algorithm part is implemented in the learner. The <code>BasicDQNLearner</code> accepts an observation from environment and returns state-action values.</p>
+<p>In the construction part of <code>BasicDQNLearner</code>, a <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.NeuralNetworkApproximator"><code>NeuralNetworkApproximator</code></a> is used to estimate the Q value. The core algorithm part is implemented in the learner. The <code>BasicDQNLearner</code> accepts an environment and returns state-action values. The resulted agent is shown below:</p>
+<pre><code class="plaintext hljs">ArgumentError: Package Flux not found in current path:
+- Run `import Pkg; Pkg.add(&quot;Flux&quot;)` to install the Flux package.
+
+</code></pre>
 <h2 id="how_to_write_a_customized_environment"><a href="#how_to_write_a_customized_environment">How to write a customized environment?</a></h2>
-<p>In short, implement the following methods for single-agent synchronous environments:</p>
-<pre><code class="julia hljs">get_action_space(env::YourEnv)  <span class="hljs-comment"># -&gt; AbstractSpace</span>
-reset!(env::YourEnv)            <span class="hljs-comment"># -&gt; nothing</span>
-(env::YourEnv)(action)          <span class="hljs-comment"># -&gt; nothing</span>
-observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:state, :reward, :terminal)}</span></code></pre>
-<p>For more complicated environments, you may refer those implemented in <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl">ReinforcementLearningEnvironments.jl</a>.</p>
+<p>See the detailed <a href="/blog/how_to_write_a_customized_environment/">blog</a>.</p>
 <h2 id="how_to_write_a_customized_stop_condition"><a href="#how_to_write_a_customized_stop_condition">How to write a customized stop condition?</a></h2>
 <p>Stop condition is just a function which is executed after interacting environment and returns a bool value indicating whether to stop an experiment or not.</p>
-<pre><code class="julia hljs"><span class="hljs-keyword">function</span> hook(agent, env, obs)::<span class="hljs-built_in">Bool</span>
+<pre><code class="julia hljs"><span class="hljs-keyword">function</span> hook(agent, env)::<span class="hljs-built_in">Bool</span>
     <span class="hljs-comment"># ...</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>Usually a closure or a functional object will be used to store some intermediate data.</p>
@@ -209,19 +212,19 @@ observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:
 </ul>
 <p>However, if you do need to write a customized hook, the following methods must be provided:</p>
 <ul>
-<li><p><code>&#40;hook::YourHook&#41;&#40;::PreActStage, agent, env, obs, action&#41;</code>, note that there&#39;s an extra argument of <code>action</code>.</p>
+<li><p><code>&#40;hook::YourHook&#41;&#40;::PreActStage, agent, env, action&#41;</code>, note that there&#39;s an extra argument of <code>action</code>.</p>
 </li>
-<li><p><code>&#40;hook::YourHook&#41;&#40;::PostActStage, agent, env, obs&#41;</code></p>
+<li><p><code>&#40;hook::YourHook&#41;&#40;::PostActStage, agent, env&#41;</code></p>
 </li>
-<li><p><code>&#40;hook::YourHook&#41;&#40;::PreEpisodeStage, agent, env, obs&#41;</code></p>
+<li><p><code>&#40;hook::YourHook&#41;&#40;::PreEpisodeStage, agent, env&#41;</code></p>
 </li>
-<li><p><code>&#40;hook::YourHook&#41;&#40;::PostEpisodeStage, agent, env, obs&#41;</code></p>
+<li><p><code>&#40;hook::YourHook&#41;&#40;::PostEpisodeStage, agent, env&#41;</code></p>
 </li>
 </ul>
 <p>If your hook is a subtype of <code>AbstractHook</code>, then all the above methods will have a default implementation which just returns <code>nothing</code>. So that you only need to extend the necessary method you want.</p>
 <h2 id="how_to_use_tensorboard"><a href="#how_to_use_tensorboard">How to use TensorBoard?</a></h2>
 <p>This package adopts a non-invasive way for logging. So you can log everything you like with a hook. For example, to log the loss of each step. You can use the <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.DoEveryNStep"><code>DoEveryNStep</code></a>.</p>
-<pre><code class="julia hljs">DoEveryNStep() <span class="hljs-keyword">do</span> t, agent, env, obs
+<pre><code class="julia hljs">DoEveryNStep() <span class="hljs-keyword">do</span> t, agent, env
     with_logger(lg) <span class="hljs-keyword">do</span>
         <span class="hljs-meta">@info</span> <span class="hljs-string">&quot;training&quot;</span> loss = agent.policy.learner.loss
     <span class="hljs-keyword">end</span>
@@ -232,7 +235,7 @@ observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:
     agent,
     env,
     stop_condition
-    DoEveryNStep(EVALUATION_FREQ) <span class="hljs-keyword">do</span> t, agent, env, obs
+    DoEveryNStep(EVALUATION_FREQ) <span class="hljs-keyword">do</span> t, agent, env
         Flux.testmode!(agent)
         run(agent, env, eval_stop_condition, eval_hook)
         Flux.trainmode!(agent)
@@ -242,7 +245,7 @@ observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:
     <img src="/guide/dolls.gif">
     <figcaption>From https://cdn.dribbble.com/users/882503/screenshots/3744602/dolls.gif</figcaption>
 </figure>
-</p>
+
 <!-- this is necessary!!! not sure why... -->
 <div></div></d-article><!-- CONTENT ENDS HERE -->
           <!-- <d-bibliography src="bibliography.bib"></d-bibliography> -->
@@ -268,7 +271,7 @@ observe(env::YourEnv)           <span class="hljs-comment"># -&gt; NamedTuple{(:
       <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-          <p>This website is built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> with the <a href="https://github.com/tlienart/DistillTemplate">DistillTemplate</a> (licensed under <a href="https://github.com/distillpub/template/blob/master/LICENSE">Apache License 2.0</a>) and <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>. The <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io">source code</a> of this website is licensed under <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/blob/master/LICENSE">MIT License</a>. The <a href="https://github.com/JuliaReinforcementLearning">JuliaReinforcementLearning</a> organization was first created by <a href="https://github.com/jbrea">Johanni Brea</a> and then co-maintained by <a href="https://github.com/findmyway">Jun Tian</a>. And we thank all the contributors <sup>[<a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/graphs/contributors">1</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningBase.jl/graphs/contributors">2</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/graphs/contributors">3</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl/graphs/contributors">4</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl/graphs/contributors">5</a>, <a href="https://github.com/JuliaReinforcementLearning/ArcadeLearningEnvironment.jl/graphs/contributors">6</a>]</sup> in this organization.</p>
+          <p>This website is built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> of the <a href="https://github.com/tlienart/DistillTemplate">DistillTemplate</a> (licensed under <a href="https://github.com/distillpub/template/blob/master/LICENSE">Apache License 2.0</a>) and <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a>. The <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io">source code</a> of this website is licensed under <a href="https://github.com/JuliaReinforcementLearning/JuliaReinforcementLearning.github.io/blob/master/LICENSE">MIT License</a>. The <a href="https://github.com/JuliaReinforcementLearning">JuliaReinforcementLearning</a> organization was first created by <a href="https://github.com/jbrea">Johanni Brea</a> and then co-maintained by <a href="https://github.com/findmyway">Jun Tian</a>. And we thank all the contributors <sup>[<a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl/graphs/contributors">1</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningBase.jl/graphs/contributors">2</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/graphs/contributors">3</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl/graphs/contributors">4</a>, <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl/graphs/contributors">5</a>, <a href="https://github.com/JuliaReinforcementLearning/ArcadeLearningEnvironment.jl/graphs/contributors">6</a>]</sup> in this organization.</p>
         </div>
         <div class="col-md-3"></div>
       </div>

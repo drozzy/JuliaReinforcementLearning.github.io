@@ -1,0 +1,10 @@
+```
+UtilityStyle(env::AbstractEnv)
+```
+
+Specify the utility style in multi-agent environments. Possible values are:
+
+  * [ZERO_SUM](@ref)
+  * [CONSTANT_SUM](@ref)
+  * [GENERAL_SUM](@ref)
+  * [IDENTICAL_REWARD](@ref)

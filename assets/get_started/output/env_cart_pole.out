@@ -1,0 +1,29 @@
+# ReinforcementLearningEnvironments.CartPoleEnv
+
+## Traits
+
+| Trait Type       |                                          Value |
+|:---------------- | ----------------------------------------------:|
+| NumAgentStyle    |        ReinforcementLearningBase.SingleAgent() |
+| DynamicStyle     |         ReinforcementLearningBase.Sequential() |
+| InformationStyle | ReinforcementLearningBase.PerfectInformation() |
+| ChanceStyle      |      ReinforcementLearningBase.Deterministic() |
+| RewardStyle      |         ReinforcementLearningBase.StepReward() |
+| UtilityStyle     |         ReinforcementLearningBase.GeneralSum() |
+| ActionStyle      |   ReinforcementLearningBase.MinimalActionSet() |
+
+## Actions
+
+ReinforcementLearningBase.DiscreteSpace{UnitRange{Int64}}(1:2)
+
+## Players
+
+  * `DEFAULT_PLAYER`
+
+## Current Player
+
+`DEFAULT_PLAYER`
+
+## Is Environment Terminated?
+
+No

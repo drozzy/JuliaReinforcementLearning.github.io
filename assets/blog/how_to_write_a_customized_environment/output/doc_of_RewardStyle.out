@@ -1,0 +1,1 @@
+Specify whether we can get reward after each step or only at the end of an game. Possible values are [STEP_REWARD](@ref) or [TERMINAL_REWARD](@ref)

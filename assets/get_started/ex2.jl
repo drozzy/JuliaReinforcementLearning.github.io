@@ -1,6 +1,6 @@
 # This file was generated, do not modify it. # hide
 using ReinforcementLearning # hide
-using Plots # hide
+using Plots
 
 experiment = E`JuliaRL_BasicDQN_CartPole`
 experiment.agent.policy.learner.γ = 0.98

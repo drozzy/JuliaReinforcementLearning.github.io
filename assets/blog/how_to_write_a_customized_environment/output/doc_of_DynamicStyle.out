@@ -1,0 +1,5 @@
+```
+DynamicStyle(env::AbstractEnv) = SEQUENTIAL
+```
+
+Determine whether the players can play simultaneously or not. Default value is [`SEQUENTIAL`](@ref)

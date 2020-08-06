@@ -1,0 +1,5 @@
+```
+InformationStyle(env) = PERFECT_INFORMATION
+```
+
+Specify whether the `env` is [PERFECT_INFORMATION](@ref) or [IMPERFECT_INFORMATION](@ref). Return [PERFECT_INFORMATION](@ref) by default.

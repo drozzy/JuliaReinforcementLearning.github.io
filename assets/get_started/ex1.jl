@@ -1,6 +1,6 @@
 # This file was generated, do not modify it. # hide
 using ReinforcementLearning # hide
-using Plots
+using Plots # hide
 
 experiment = E`JuliaRL_BasicDQN_CartPole`
 hook = TotalRewardPerEpisode()

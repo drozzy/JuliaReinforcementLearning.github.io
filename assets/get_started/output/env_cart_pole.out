@@ -2,15 +2,16 @@
 
 ## Traits
 
-| Trait Type       |                                          Value |
-|:---------------- | ----------------------------------------------:|
-| NumAgentStyle    |        ReinforcementLearningBase.SingleAgent() |
-| DynamicStyle     |         ReinforcementLearningBase.Sequential() |
-| InformationStyle | ReinforcementLearningBase.PerfectInformation() |
-| ChanceStyle      |      ReinforcementLearningBase.Deterministic() |
-| RewardStyle      |         ReinforcementLearningBase.StepReward() |
-| UtilityStyle     |         ReinforcementLearningBase.GeneralSum() |
-| ActionStyle      |   ReinforcementLearningBase.MinimalActionSet() |
+| Trait Type        |                                          Value |
+|:----------------- | ----------------------------------------------:|
+| NumAgentStyle     |        ReinforcementLearningBase.SingleAgent() |
+| DynamicStyle      |         ReinforcementLearningBase.Sequential() |
+| InformationStyle  | ReinforcementLearningBase.PerfectInformation() |
+| ChanceStyle       |      ReinforcementLearningBase.Deterministic() |
+| RewardStyle       |         ReinforcementLearningBase.StepReward() |
+| UtilityStyle      |         ReinforcementLearningBase.GeneralSum() |
+| ActionStyle       |   ReinforcementLearningBase.MinimalActionSet() |
+| DefaultStateStyle | ReinforcementLearningBase.Observation{Array}() |
 
 ## Actions
 

@@ -43,7 +43,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-08-06T14:41:36.438"
+    "publishedDate":"2020-09-30T05:29:32.123"
 }
     </script>
 </d-front-matter>
@@ -146,7 +146,7 @@ hook = TotalRewardPerEpisode()
 run(
     Agent(
         ;policy = RandomPolicy(env),
-        trajectory = VectorialCompactSARTSATrajectory(
+        trajectory = VectCompactSARTSATrajectory(
             state_type=<span class="hljs-built_in">Bool</span>,
             action_type=<span class="hljs-built_in">Any</span>,
             reward_type=<span class="hljs-built_in">Int</span>,
@@ -159,12 +159,41 @@ run(
 )
 
 println(sum(hook.rewards) / <span class="hljs-number">1_000</span>)</code></pre>
-<pre><code class="plaintext hljs">UndefVarError: env not defined
+<pre><code class="plaintext hljs">14993.58
 </code></pre>
 <h2 id="traits_of_environments"><a href="#traits_of_environments">Traits of environments</a></h2>
 <p>If you run <code>LotteryEnv&#40;&#41;</code> in the REPL, you&#39;ll get the following summary of the environment:</p>
 
-<pre><code class="plaintext hljs">UndefVarError: LotteryEnv not defined
+<pre><code class="plaintext hljs"># Main.FD*SANDBOX*9305811185495627212.LotteryEnv
+
+## Traits
+
+| Trait Type        |                                          Value |
+|:----------------- | ----------------------------------------------:|
+| NumAgentStyle     |        ReinforcementLearningBase.SingleAgent() |
+| DynamicStyle      |         ReinforcementLearningBase.Sequential() |
+| InformationStyle  | ReinforcementLearningBase.PerfectInformation() |
+| ChanceStyle       |      ReinforcementLearningBase.Deterministic() |
+| RewardStyle       |         ReinforcementLearningBase.StepReward() |
+| UtilityStyle      |         ReinforcementLearningBase.GeneralSum() |
+| ActionStyle       |   ReinforcementLearningBase.MinimalActionSet() |
+| DefaultStateStyle | ReinforcementLearningBase.Observation{Array}() |
+
+## Actions
+
+(:PowerRich, :MegaHaul, nothing)
+
+## Players
+
+  * `DEFAULT_PLAYER`
+
+## Current Player
+
+`DEFAULT_PLAYER`
+
+## Is Environment Terminated?
+
+No
 </code></pre>
 <p>The <strong>Traits</strong> section describes which category the environment belongs to. As you can see, by default an environment is assumed to be of:</p>
 <ul>

@@ -45,38 +45,18 @@ ReinforcementLearningCore.Experiment
 │  │     ├─ step => 1
 │  │     ├─ rng => Random.MersenneTwister
 │  │     └─ is_training => true
-│  ├─ trajectory => 0-element ReinforcementLearningCore.Trajectory
-│  │  ├─ state => 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
-│  │  ├─ action => 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+│  ├─ trajectory => ReinforcementLearningCore.CombinedTrajectory
 │  │  ├─ reward => 0-element ReinforcementLearningCore.CircularArrayBuffer{Float32,1}
 │  │  ├─ terminal => 0-element ReinforcementLearningCore.CircularArrayBuffer{Bool,1}
+│  │  ├─ state => 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
 │  │  ├─ next_state => 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 2:1) with eltype Float32
-│  │  └─ next_action => 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 2:1) with eltype Int64
+│  │  ├─ full_state => 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
+│  │  ├─ action => 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+│  │  ├─ next_action => 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 2:1) with eltype Int64
+│  │  └─ full_action => 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
 │  ├─ role => DEFAULT_PLAYER
 │  └─ is_training => true
-├─ env => ReinforcementLearningEnvironments.CartPoleEnv: ReinforcementLearningBase.SingleAgent(),ReinforcementLearningBase.Sequential(),ReinforcementLearningBase.PerfectInformation(),ReinforcementLearningBase.Deterministic(),ReinforcementLearningBase.StepReward(),ReinforcementLearningBase.GeneralSum(),ReinforcementLearningBase.MinimalActionSet()
-│  ├─ params => ReinforcementLearningEnvironments.CartPoleEnvParams
-│  │  ├─ gravity => 9.8
-│  │  ├─ masscart => 1.0
-│  │  ├─ masspole => 0.1
-│  │  ├─ totalmass => 1.1
-│  │  ├─ halflength => 0.5
-│  │  ├─ polemasslength => 0.05
-│  │  ├─ forcemag => 10.0
-│  │  ├─ dt => 0.02
-│  │  ├─ thetathreshold => 0.20943952
-│  │  ├─ xthreshold => 2.4
-│  │  └─ max_steps => 200
-│  ├─ action_space => ReinforcementLearningBase.DiscreteSpace
-│  │  └─ span => 2-element UnitRange{Int64}
-│  ├─ observation_space => ReinforcementLearningBase.MultiContinuousSpace
-│  │  ├─ low => 4-element Array{Float32,1}
-│  │  └─ high => 4-element Array{Float32,1}
-│  ├─ state => 4-element Array{Float32,1}
-│  ├─ action => 2
-│  ├─ done => false
-│  ├─ t => 0
-│  └─ rng => Random.MersenneTwister
+├─ env => ReinforcementLearningEnvironments.CartPoleEnv: ReinforcementLearningBase.SingleAgent(),ReinforcementLearningBase.Sequential(),ReinforcementLearningBase.PerfectInformation(),ReinforcementLearningBase.Deterministic(),ReinforcementLearningBase.StepReward(),ReinforcementLearningBase.GeneralSum(),ReinforcementLearningBase.MinimalActionSet(),ReinforcementLearningBase.Observation{Array}()
 ├─ stop_condition => ReinforcementLearningCore.StopAfterStep
 │  ├─ step => 10000
 │  ├─ cur => 1
@@ -90,21 +70,21 @@ ReinforcementLearningCore.Experiment
 │     ├─ 2
 │     │  └─ ReinforcementLearningCore.TimePerStep
 │     │     ├─ times => 0-element ReinforcementLearningCore.CircularArrayBuffer{Float64,1}
-│     │     └─ t => 791027816977
+│     │     └─ t => 832228407951
 │     ├─ 3
 │     │  └─ ReinforcementLearningCore.DoEveryNStep
-│     │     ├─ f => ReinforcementLearningZoo.var"#106#111"
+│     │     ├─ f => ReinforcementLearningZoo.var"#136#141"
 │     │     ├─ n => 1
 │     │     └─ t => 0
 │     ├─ 4
 │     │  └─ ReinforcementLearningCore.DoEveryNEpisode
-│     │     ├─ f => ReinforcementLearningZoo.var"#108#113"
+│     │     ├─ f => ReinforcementLearningZoo.var"#138#143"
 │     │     ├─ n => 1
 │     │     └─ t => 0
 │     └─ 5
 │        └─ ReinforcementLearningCore.DoEveryNStep
-│           ├─ f => ReinforcementLearningZoo.var"#110#115"
+│           ├─ f => ReinforcementLearningZoo.var"#140#145"
 │           ├─ n => 10000
 │           └─ t => 0
-└─ description => "This experiment uses three dense layers to approximate the Q value...."
+└─ description => "    This experiment uses three dense layers to approximate the Q value...."
 

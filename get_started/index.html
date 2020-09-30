@@ -44,7 +44,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-08-06T14:51:52.582",
+    "publishedDate":"2020-09-30T05:40:01.491",
     "citationText":"Jun Tian, 2020"
 }
     </script>
@@ -117,16 +117,18 @@ run(E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>)</code></pre>
 <p>CartPole is considered to be one of the simplest environments for DRL &#40;Deep Reinforcement Learning&#41; algorithms testing. The state of the CartPole environment can be described with 4 numbers and the actions are two integers&#40;<code>1</code> and <code>2</code>&#41;. Before game terminates, agent can gain a reward of <code>&#43;1</code> for each step. And the game will be forced to end after 200 steps, thus the maximum reward of an episode is <code>200</code>. </p>
 <p>While the experiment is running, you&#39;ll see the following information and a progress bar. The information may be slightly different based on your platform and your current working directory. Note that the first run would be slow. On a modern computer, the experiment should be finished in a minute.</p>
 
-<pre><code class="plaintext hljs">This experiment uses three dense layers to approximate the Q value.
+<pre><code class="plaintext hljs">    This experiment uses three dense layers to approximate the Q value.
 The testing environment is CartPoleEnv.
 
-Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_08_06_14_51_55`
-You can also view the tensorboard logs with `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_08_06_14_51_55/tb_log`
-To load the agent and statistic info:
-```
-agent = RLCore.load(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_08_06_14_51_55&quot;, Agent)
-BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_08_06_14_51_55&quot;, &quot;stats.bson&quot;) total_reward_per_episode time_per_step
-```
+
+    Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03`
+    You can also view the tensorboard logs with
+    `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03/tb_log`
+    To load the agent and statistic info:
+    ```
+    agent = RLCore.load(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03&quot;, Agent)
+    BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03&quot;, &quot;stats.bson&quot;) total_reward_per_episode time_per_step
+    ```
 </code></pre>
 
 <p>Follow the instruction above and run <code>tensorboard --logdir /the/path/shown/above</code>, then a link will be prompted &#40;typically it&#39;s <code>http://YourHost:6006/</code>&#41;. Now open it in your browser, you&#39;ll see a webpage similar to the following one:</p>
@@ -205,38 +207,18 @@ BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io
 │  │     ├─ step =&gt; 1
 │  │     ├─ rng =&gt; Random.MersenneTwister
 │  │     └─ is_training =&gt; true
-│  ├─ trajectory =&gt; 0-element ReinforcementLearningCore.Trajectory
-│  │  ├─ state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
-│  │  ├─ action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+│  ├─ trajectory =&gt; ReinforcementLearningCore.CombinedTrajectory
 │  │  ├─ reward =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Float32,1}
 │  │  ├─ terminal =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Bool,1}
+│  │  ├─ state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
 │  │  ├─ next_state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 2:1) with eltype Float32
-│  │  └─ next_action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 2:1) with eltype Int64
+│  │  ├─ full_state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
+│  │  ├─ action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+│  │  ├─ next_action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 2:1) with eltype Int64
+│  │  └─ full_action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
 │  ├─ role =&gt; DEFAULT_PLAYER
 │  └─ is_training =&gt; true
-├─ env =&gt; ReinforcementLearningEnvironments.CartPoleEnv: ReinforcementLearningBase.SingleAgent(),ReinforcementLearningBase.Sequential(),ReinforcementLearningBase.PerfectInformation(),ReinforcementLearningBase.Deterministic(),ReinforcementLearningBase.StepReward(),ReinforcementLearningBase.GeneralSum(),ReinforcementLearningBase.MinimalActionSet()
-│  ├─ params =&gt; ReinforcementLearningEnvironments.CartPoleEnvParams
-│  │  ├─ gravity =&gt; 9.8
-│  │  ├─ masscart =&gt; 1.0
-│  │  ├─ masspole =&gt; 0.1
-│  │  ├─ totalmass =&gt; 1.1
-│  │  ├─ halflength =&gt; 0.5
-│  │  ├─ polemasslength =&gt; 0.05
-│  │  ├─ forcemag =&gt; 10.0
-│  │  ├─ dt =&gt; 0.02
-│  │  ├─ thetathreshold =&gt; 0.20943952
-│  │  ├─ xthreshold =&gt; 2.4
-│  │  └─ max_steps =&gt; 200
-│  ├─ action_space =&gt; ReinforcementLearningBase.DiscreteSpace
-│  │  └─ span =&gt; 2-element UnitRange{Int64}
-│  ├─ observation_space =&gt; ReinforcementLearningBase.MultiContinuousSpace
-│  │  ├─ low =&gt; 4-element Array{Float32,1}
-│  │  └─ high =&gt; 4-element Array{Float32,1}
-│  ├─ state =&gt; 4-element Array{Float32,1}
-│  ├─ action =&gt; 2
-│  ├─ done =&gt; false
-│  ├─ t =&gt; 0
-│  └─ rng =&gt; Random.MersenneTwister
+├─ env =&gt; ReinforcementLearningEnvironments.CartPoleEnv: ReinforcementLearningBase.SingleAgent(),ReinforcementLearningBase.Sequential(),ReinforcementLearningBase.PerfectInformation(),ReinforcementLearningBase.Deterministic(),ReinforcementLearningBase.StepReward(),ReinforcementLearningBase.GeneralSum(),ReinforcementLearningBase.MinimalActionSet(),ReinforcementLearningBase.Observation{Array}()
 ├─ stop_condition =&gt; ReinforcementLearningCore.StopAfterStep
 │  ├─ step =&gt; 10000
 │  ├─ cur =&gt; 1
@@ -250,23 +232,23 @@ BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io
 │     ├─ 2
 │     │  └─ ReinforcementLearningCore.TimePerStep
 │     │     ├─ times =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Float64,1}
-│     │     └─ t =&gt; 791027816977
+│     │     └─ t =&gt; 832228407951
 │     ├─ 3
 │     │  └─ ReinforcementLearningCore.DoEveryNStep
-│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#106#111&quot;
+│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#136#141&quot;
 │     │     ├─ n =&gt; 1
 │     │     └─ t =&gt; 0
 │     ├─ 4
 │     │  └─ ReinforcementLearningCore.DoEveryNEpisode
-│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#108#113&quot;
+│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#138#143&quot;
 │     │     ├─ n =&gt; 1
 │     │     └─ t =&gt; 0
 │     └─ 5
 │        └─ ReinforcementLearningCore.DoEveryNStep
-│           ├─ f =&gt; ReinforcementLearningZoo.var&quot;#110#115&quot;
+│           ├─ f =&gt; ReinforcementLearningZoo.var&quot;#140#145&quot;
 │           ├─ n =&gt; 10000
 │           └─ t =&gt; 0
-└─ description =&gt; &quot;This experiment uses three dense layers to approximate the Q value....&quot;
+└─ description =&gt; &quot;    This experiment uses three dense layers to approximate the Q value....&quot;
 
 </code></pre>
 <p>In the highest level, each experiment contains the following four parts:</p>
@@ -324,15 +306,16 @@ plot(hook.rewards)</code></pre>
 
 ## Traits
 
-| Trait Type       |                                          Value |
-|:---------------- | ----------------------------------------------:|
-| NumAgentStyle    |        ReinforcementLearningBase.SingleAgent() |
-| DynamicStyle     |         ReinforcementLearningBase.Sequential() |
-| InformationStyle | ReinforcementLearningBase.PerfectInformation() |
-| ChanceStyle      |      ReinforcementLearningBase.Deterministic() |
-| RewardStyle      |         ReinforcementLearningBase.StepReward() |
-| UtilityStyle     |         ReinforcementLearningBase.GeneralSum() |
-| ActionStyle      |   ReinforcementLearningBase.MinimalActionSet() |
+| Trait Type        |                                          Value |
+|:----------------- | ----------------------------------------------:|
+| NumAgentStyle     |        ReinforcementLearningBase.SingleAgent() |
+| DynamicStyle      |         ReinforcementLearningBase.Sequential() |
+| InformationStyle  | ReinforcementLearningBase.PerfectInformation() |
+| ChanceStyle       |      ReinforcementLearningBase.Deterministic() |
+| RewardStyle       |         ReinforcementLearningBase.StepReward() |
+| UtilityStyle      |         ReinforcementLearningBase.GeneralSum() |
+| ActionStyle       |   ReinforcementLearningBase.MinimalActionSet() |
+| DefaultStateStyle | ReinforcementLearningBase.Observation{Array}() |
 
 ## Actions
 

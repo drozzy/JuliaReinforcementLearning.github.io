@@ -44,7 +44,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-09-30T05:39:59.713",
+    "publishedDate":"2020-11-09T02:57:04.271",
     "citationText":"Jun Tian, 2020"
 }
     </script>
@@ -190,8 +190,60 @@ agent = Agent(
 )</code></pre>
 <aside>You might have noticed that <a href="https://github.com/FluxML/Flux.jl">Flux.jl</a> is used here to build the deep learning model. With the abstraction layer of <code>Approximator</code>, we can replace Flux.jl with Knet.jl or even PyTorch or TensorFlow.</aside>
 <p>In the construction part of <code>BasicDQNLearner</code>, a <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_core/#ReinforcementLearningCore.NeuralNetworkApproximator"><code>NeuralNetworkApproximator</code></a> is used to estimate the Q value. The core algorithm part is implemented in the learner. The <code>BasicDQNLearner</code> accepts an environment and returns state-action values. The resulted agent is shown below:</p>
-<pre><code class="plaintext hljs">ArgumentError: Package Flux not found in current path:
-- Run `import Pkg; Pkg.add(&quot;Flux&quot;)` to install the Flux package.
+<pre><code class="plaintext hljs">ReinforcementLearningCore.Agent
+├─ policy =&gt; ReinforcementLearningCore.QBasedPolicy
+│  ├─ learner =&gt; ReinforcementLearningZoo.BasicDQNLearner
+│  │  ├─ approximator =&gt; ReinforcementLearningCore.NeuralNetworkApproximator
+│  │  │  ├─ model =&gt; Flux.Chain
+│  │  │  │  └─ layers
+│  │  │  │     ├─ 1
+│  │  │  │     │  └─ Flux.Dense
+│  │  │  │     │     ├─ W =&gt; 128×4 Array{Float32,2}
+│  │  │  │     │     ├─ b =&gt; 128-element Array{Float32,1}
+│  │  │  │     │     └─ σ =&gt; typeof(NNlib.relu)
+│  │  │  │     ├─ 2
+│  │  │  │     │  └─ Flux.Dense
+│  │  │  │     │     ├─ W =&gt; 128×128 Array{Float32,2}
+│  │  │  │     │     ├─ b =&gt; 128-element Array{Float32,1}
+│  │  │  │     │     └─ σ =&gt; typeof(NNlib.relu)
+│  │  │  │     └─ 3
+│  │  │  │        └─ Flux.Dense
+│  │  │  │           ├─ W =&gt; 2×128 Array{Float32,2}
+│  │  │  │           ├─ b =&gt; 2-element Array{Float32,1}
+│  │  │  │           └─ σ =&gt; typeof(identity)
+│  │  │  └─ optimizer =&gt; Flux.Optimise.ADAM
+│  │  │     ├─ eta =&gt; 0.001
+│  │  │     ├─ beta
+│  │  │     │  ├─ 1
+│  │  │     │  │  └─ 0.9
+│  │  │     │  └─ 2
+│  │  │     │     └─ 0.999
+│  │  │     └─ state =&gt; IdDict
+│  │  ├─ loss_func =&gt; typeof(ReinforcementLearningCore.huber_loss)
+│  │  ├─ γ =&gt; 0.99
+│  │  ├─ batch_size =&gt; 32
+│  │  ├─ min_replay_history =&gt; 100
+│  │  ├─ rng =&gt; Random.MersenneTwister
+│  │  └─ loss =&gt; 0.0
+│  └─ explorer =&gt; ReinforcementLearningCore.EpsilonGreedyExplorer
+│     ├─ ϵ_stable =&gt; 0.01
+│     ├─ ϵ_init =&gt; 1.0
+│     ├─ warmup_steps =&gt; 0
+│     ├─ decay_steps =&gt; 500
+│     ├─ step =&gt; 1
+│     ├─ rng =&gt; Random.MersenneTwister
+│     └─ is_training =&gt; true
+├─ trajectory =&gt; ReinforcementLearningCore.CombinedTrajectory
+│  ├─ reward =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Float32,1}
+│  ├─ terminal =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Bool,1}
+│  ├─ state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
+│  ├─ next_state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 2:1) with eltype Float32
+│  ├─ full_state =&gt; 4×0 view(::ReinforcementLearningCore.CircularArrayBuffer{Float32,2}, :, 1:0) with eltype Float32
+│  ├─ action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+│  ├─ next_action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 2:1) with eltype Int64
+│  └─ full_action =&gt; 0-element view(::ReinforcementLearningCore.CircularArrayBuffer{Int64,1}, 1:0) with eltype Int64
+├─ role =&gt; DEFAULT_PLAYER
+└─ is_training =&gt; true
 
 </code></pre>
 <h2 id="how_to_write_a_customized_environment"><a href="#how_to_write_a_customized_environment">How to write a customized environment?</a></h2>

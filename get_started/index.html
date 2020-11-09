@@ -44,7 +44,7 @@
             "affiliationURL":""
         }
     ],
-    "publishedDate":"2020-09-30T05:40:01.491",
+    "publishedDate":"2020-11-09T02:57:17.175",
     "citationText":"Jun Tian, 2020"
 }
     </script>
@@ -111,7 +111,7 @@ run(E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>)</code></pre>
 </li>
 <li><p><code>using ReinforcementLearning</code> will bring the names exported in <code>ReinforcementLearning</code> into global scope. If this is your first time to run, you&#39;ll see <em>precompiling ReinforcementLearning</em>. And it may take a while.</p>
 </li>
-<li><p>The third line means, <code>run</code> an <strong>E</strong>xperiment named <code>JuliaRL_BasicDQN_CartPole</code> <d-footnote>The <code>E&#96;JuliaRL_BasicDQN_CartPole&#96; </code> is a handy <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/index.html#Non-Standard-String-Literals-1">command literal</a> to instantiate a prebuilt experiment.</d-footnote>.</p>
+<li><p>The third line means, <code>run</code> an <strong>E</strong>xperiment named <code>JuliaRL_BasicDQN_CartPole</code> <d-footnote>The <code>E&#96;JuliaRL_BasicDQN_CartPole&#96;</code> is a handy <a href="https://docs.julialang.org/en/v1/manual/metaprogramming/index.html#Non-Standard-String-Literals-1">command literal</a> to instantiate a prebuilt experiment.</d-footnote>.</p>
 </li>
 </ol>
 <p>CartPole is considered to be one of the simplest environments for DRL &#40;Deep Reinforcement Learning&#41; algorithms testing. The state of the CartPole environment can be described with 4 numbers and the actions are two integers&#40;<code>1</code> and <code>2</code>&#41;. Before game terminates, agent can gain a reward of <code>&#43;1</code> for each step. And the game will be forced to end after 200 steps, thus the maximum reward of an episode is <code>200</code>. </p>
@@ -121,13 +121,13 @@ run(E<span class="hljs-string">`JuliaRL_BasicDQN_CartPole`</span>)</code></pre>
 The testing environment is CartPoleEnv.
 
 
-    Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03`
+    Agent and statistic info will be saved to: `/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_11_09_02_57_18`
     You can also view the tensorboard logs with
-    `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03/tb_log`
+    `tensorboard --logdir /home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_11_09_02_57_18/tb_log`
     To load the agent and statistic info:
     ```
-    agent = RLCore.load(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03&quot;, Agent)
-    BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_09_30_05_40_03&quot;, &quot;stats.bson&quot;) total_reward_per_episode time_per_step
+    agent = RLCore.load(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_11_09_02_57_18&quot;, Agent)
+    BSON.@load joinpath(&quot;/home/runner/work/JuliaReinforcementLearning.github.io/JuliaReinforcementLearning.github.io/checkpoints/JuliaRL_BasicDQN_CartPole_2020_11_09_02_57_18&quot;, &quot;stats.bson&quot;) total_reward_per_episode time_per_step
     ```
 </code></pre>
 
@@ -141,21 +141,21 @@ The testing environment is CartPoleEnv.
 <p>Now that you already know how to run the experiment of <a href="https://juliareinforcementlearning.org/ReinforcementLearning.jl/latest/rl_zoo/#ReinforcementLearningZoo.BasicDQNLearner">BasicDQN</a> algorithm with the CartPole environment. You are suggested to try some other experiments below to compare the performance of different algorithms <d-footnote>For the full list of supported algorithms, please visit <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningZoo.jl#list-of-built-in-experiments">ReinforcementLearningZoo.jl</a></d-footnote>:</p>
 <aside>Note that the parameters in the experiments listed here are tuned.</aside>
 <ul>
-<li><p><code>E&#96;JuliaRL_BasicDQN_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_BasicDQN_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_DQN_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_DQN_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_PrioritizedDQN_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_PrioritizedDQN_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_Rainbow_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_Rainbow_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_IQN_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_IQN_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_A2C_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_A2C_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_A2CGAE_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_A2CGAE_CartPole&#96;</code></p>
 </li>
-<li><p><code>E&#96;JuliaRL_PPO_CartPole&#96; </code></p>
+<li><p><code>E&#96;JuliaRL_PPO_CartPole&#96;</code></p>
 </li>
 </ul>
 <h2 id="basic_components"><a href="#basic_components">Basic Components</a></h2>
@@ -190,14 +190,12 @@ The testing environment is CartPoleEnv.
 │  │  │  │     │  └─ 2
 │  │  │  │     │     └─ 0.999
 │  │  │  │     └─ state =&gt; IdDict
-│  │  │  │        ├─ ht =&gt; 32-element Array{Any,1}
-│  │  │  │        ├─ count =&gt; 0
-│  │  │  │        └─ ndel =&gt; 0
 │  │  │  ├─ loss_func =&gt; typeof(ReinforcementLearningCore.huber_loss)
 │  │  │  ├─ γ =&gt; 0.99
 │  │  │  ├─ batch_size =&gt; 32
 │  │  │  ├─ min_replay_history =&gt; 100
-│  │  │  ├─ rng =&gt; Random.MersenneTwister
+│  │  │  ├─ rng =&gt; StableRNGs.LehmerRNG
+│  │  │  │  └─ state =&gt; 106284361792072130967887503082563331239
 │  │  │  └─ loss =&gt; 0.0
 │  │  └─ explorer =&gt; ReinforcementLearningCore.EpsilonGreedyExplorer
 │  │     ├─ ϵ_stable =&gt; 0.01
@@ -205,7 +203,8 @@ The testing environment is CartPoleEnv.
 │  │     ├─ warmup_steps =&gt; 0
 │  │     ├─ decay_steps =&gt; 500
 │  │     ├─ step =&gt; 1
-│  │     ├─ rng =&gt; Random.MersenneTwister
+│  │     ├─ rng =&gt; StableRNGs.LehmerRNG
+│  │     │  └─ state =&gt; 106284361792072130967887503082563331239
 │  │     └─ is_training =&gt; true
 │  ├─ trajectory =&gt; ReinforcementLearningCore.CombinedTrajectory
 │  │  ├─ reward =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Float32,1}
@@ -232,20 +231,20 @@ The testing environment is CartPoleEnv.
 │     ├─ 2
 │     │  └─ ReinforcementLearningCore.TimePerStep
 │     │     ├─ times =&gt; 0-element ReinforcementLearningCore.CircularArrayBuffer{Float64,1}
-│     │     └─ t =&gt; 832228407951
+│     │     └─ t =&gt; 1017641397845
 │     ├─ 3
 │     │  └─ ReinforcementLearningCore.DoEveryNStep
-│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#136#141&quot;
+│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#245#250&quot;
 │     │     ├─ n =&gt; 1
 │     │     └─ t =&gt; 0
 │     ├─ 4
 │     │  └─ ReinforcementLearningCore.DoEveryNEpisode
-│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#138#143&quot;
+│     │     ├─ f =&gt; ReinforcementLearningZoo.var&quot;#247#252&quot;
 │     │     ├─ n =&gt; 1
 │     │     └─ t =&gt; 0
 │     └─ 5
 │        └─ ReinforcementLearningCore.DoEveryNStep
-│           ├─ f =&gt; ReinforcementLearningZoo.var&quot;#140#145&quot;
+│           ├─ f =&gt; ReinforcementLearningZoo.var&quot;#249#254&quot;
 │           ├─ n =&gt; 10000
 │           └─ t =&gt; 0
 └─ description =&gt; &quot;    This experiment uses three dense layers to approximate the Q value....&quot;

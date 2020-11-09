@@ -28,14 +28,12 @@ ReinforcementLearningCore.Experiment
 │  │  │  │     │  └─ 2
 │  │  │  │     │     └─ 0.999
 │  │  │  │     └─ state => IdDict
-│  │  │  │        ├─ ht => 32-element Array{Any,1}
-│  │  │  │        ├─ count => 0
-│  │  │  │        └─ ndel => 0
 │  │  │  ├─ loss_func => typeof(ReinforcementLearningCore.huber_loss)
 │  │  │  ├─ γ => 0.99
 │  │  │  ├─ batch_size => 32
 │  │  │  ├─ min_replay_history => 100
-│  │  │  ├─ rng => Random.MersenneTwister
+│  │  │  ├─ rng => StableRNGs.LehmerRNG
+│  │  │  │  └─ state => 106284361792072130967887503082563331239
 │  │  │  └─ loss => 0.0
 │  │  └─ explorer => ReinforcementLearningCore.EpsilonGreedyExplorer
 │  │     ├─ ϵ_stable => 0.01
@@ -43,7 +41,8 @@ ReinforcementLearningCore.Experiment
 │  │     ├─ warmup_steps => 0
 │  │     ├─ decay_steps => 500
 │  │     ├─ step => 1
-│  │     ├─ rng => Random.MersenneTwister
+│  │     ├─ rng => StableRNGs.LehmerRNG
+│  │     │  └─ state => 106284361792072130967887503082563331239
 │  │     └─ is_training => true
 │  ├─ trajectory => ReinforcementLearningCore.CombinedTrajectory
 │  │  ├─ reward => 0-element ReinforcementLearningCore.CircularArrayBuffer{Float32,1}
@@ -70,20 +69,20 @@ ReinforcementLearningCore.Experiment
 │     ├─ 2
 │     │  └─ ReinforcementLearningCore.TimePerStep
 │     │     ├─ times => 0-element ReinforcementLearningCore.CircularArrayBuffer{Float64,1}
-│     │     └─ t => 832228407951
+│     │     └─ t => 1017641397845
 │     ├─ 3
 │     │  └─ ReinforcementLearningCore.DoEveryNStep
-│     │     ├─ f => ReinforcementLearningZoo.var"#136#141"
+│     │     ├─ f => ReinforcementLearningZoo.var"#245#250"
 │     │     ├─ n => 1
 │     │     └─ t => 0
 │     ├─ 4
 │     │  └─ ReinforcementLearningCore.DoEveryNEpisode
-│     │     ├─ f => ReinforcementLearningZoo.var"#138#143"
+│     │     ├─ f => ReinforcementLearningZoo.var"#247#252"
 │     │     ├─ n => 1
 │     │     └─ t => 0
 │     └─ 5
 │        └─ ReinforcementLearningCore.DoEveryNStep
-│           ├─ f => ReinforcementLearningZoo.var"#140#145"
+│           ├─ f => ReinforcementLearningZoo.var"#249#254"
 │           ├─ n => 10000
 │           └─ t => 0
 └─ description => "    This experiment uses three dense layers to approximate the Q value...."

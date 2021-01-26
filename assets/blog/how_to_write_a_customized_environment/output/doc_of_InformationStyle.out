@@ -1,5 +1,5 @@
 ```
-InformationStyle(env) = PERFECT_INFORMATION
+InformationStyle(env) = IMPERFECT_INFORMATION
 ```
 
-Specify whether the `env` is [PERFECT_INFORMATION](@ref) or [IMPERFECT_INFORMATION](@ref). Return [PERFECT_INFORMATION](@ref) by default.
+Distinguish environments between [`PERFECT_INFORMATION`](@ref) and [`IMPERFECT_INFORMATION`](@ref). [`IMPERFECT_INFORMATION`](@ref) is returned by default.

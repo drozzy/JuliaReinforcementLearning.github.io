@@ -1,8 +1,6 @@
-get_actions
-get_legal_actions
-get_legal_actions_mask
-get_state
-get_history
-get_terminal
-get_reward
-get_prob
+action_space
+legal_action_space
+legal_action_space_mask
+state
+state_space
+reward

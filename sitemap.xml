@@ -2,12 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>blog/how_to_write_a_customized_environment/index.html</loc>
-    <lastmod>2021-01-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
     <loc>contribute/index.html</loc>
     <lastmod>2021-01-27</lastmod>
     <changefreq>monthly</changefreq>
@@ -153,6 +147,12 @@
 </url>
 <url>
     <loc>blog/notebooks_for_reinforcement_learning_an_introduction/Chapter08_Maze.jl</loc>
+    <lastmod>2021-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>blog/how_to_write_a_customized_environment/index/</loc>
     <lastmod>2021-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

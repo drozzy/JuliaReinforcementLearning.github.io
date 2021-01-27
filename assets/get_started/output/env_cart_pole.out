@@ -1,0 +1,33 @@
+# CartPoleEnv
+
+## Traits
+
+| Trait Type        |                                            Value |
+|:----------------- | ------------------------------------------------:|
+| NumAgentStyle     |          ReinforcementLearningBase.SingleAgent() |
+| DynamicStyle      |           ReinforcementLearningBase.Sequential() |
+| InformationStyle  | ReinforcementLearningBase.ImperfectInformation() |
+| ChanceStyle       |           ReinforcementLearningBase.Stochastic() |
+| RewardStyle       |           ReinforcementLearningBase.StepReward() |
+| UtilityStyle      |           ReinforcementLearningBase.GeneralSum() |
+| ActionStyle       |     ReinforcementLearningBase.MinimalActionSet() |
+| StateStyle        |     ReinforcementLearningBase.Observation{Any}() |
+| DefaultStateStyle |     ReinforcementLearningBase.Observation{Any}() |
+
+## Is Environment Terminated?
+
+No
+
+## State Space
+
+`ReinforcementLearningBase.Space{Array{IntervalSets.Interval{:closed,:closed,Float64},1}}(IntervalSets.Interval{:closed,:closed,Float64}[-4.8..4.8, -1.0e38..1.0e38, -0.41887902047863906..0.41887902047863906, -1.0e38..1.0e38])`
+
+## Action Space
+
+`Base.OneTo(2)`
+
+## Current State
+
+```
+[-0.03632748898834846, -0.04945304398489672, 0.04477113320687569, -0.03589411571409982]
+```

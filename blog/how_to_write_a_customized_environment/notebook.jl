@@ -299,7 +299,7 @@ Note that every state style may have different representations, `String`, `Array
 """
 
 # ╔═╡ 12fa94ec-60b0-11eb-0bd7-a5da4368db56
-RLBase.state(::Observation{String}, ::LotteryEnv) = is_terminated(env) ? "Game Over" : "Game Start"
+RLBase.state(::Observation{String}, env::LotteryEnv) = is_terminated(env) ? "Game Over" : "Game Start"
 
 # ╔═╡ 43d13376-60b0-11eb-3f05-8f50e494764b
 md"""
@@ -426,7 +426,7 @@ If all players can see the same state, then we say the `InformationStyle` of the
 md"""
 #### `DynamicStyle`
 
-All the environments we've seen so far are of `Sequential` style, meaning that at each step, only **ONE** player is allowed to take an action. Agains these are `Simultaneous` environments, all players take actions simultaneously and they can't see each other's action in advance. For simultaneous environments, they should only take a collection of actions from different players as input.
+All the environments we've seen so far were of `Sequential` style, meaning that at each step, only **ONE** player was allowed to take an action. Alternatively there are `Simultaneous` environments, where all the players take actions simultaneously without seeing each other's action in advance. Simultaneous environments must take a collection of actions from different players as input.
 """
 
 # ╔═╡ 6a58f464-60bb-11eb-12ab-592202a61d9f
@@ -461,7 +461,7 @@ chance_player(kp) in players(kp)
 md"""
 ## Examples
 
-Finally we've gone through all the details you need to know for how to write a customized environment. You're suggested to take a look at the examples provided in [ReinforcementLearningEnvironments.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl). Feel free to create an issue there if you're still not sure how to describe your problem with the interfaces defined in this package.
+Finally we've gone through all the details you need to know for how to write a customized environment. You're encouraged to take a look at the examples provided in [ReinforcementLearningEnvironments.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl). Feel free to create an issue there if you're still not sure how to describe your problem with the interfaces defined in this package.
 """
 
 # ╔═╡ Cell order:

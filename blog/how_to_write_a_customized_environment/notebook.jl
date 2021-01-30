@@ -4,6 +4,12 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ dccad7c8-62fb-11eb-226f-393c73301bcb
+begin
+	using Dates
+	using Pkg
+end
+
 # ╔═╡ 5938a9a6-6099-11eb-1ac9-1fb12d9c9237
 using ReinforcementLearning
 
@@ -16,10 +22,20 @@ using Plots
 # ╔═╡ ac7e107c-609b-11eb-2d50-4b50517e1840
 using Flux:InvDecay
 
-# ╔═╡ 03852aa2-6099-11eb-39db-ffba5eeade98
+# ╔═╡ bed48ef6-62fb-11eb-327a-ed29787dda3c
 md"""
 # How to Write a Customized Environment in ReinforcementLearning.jl?
+"""
 
+# ╔═╡ e262295a-62fb-11eb-32c0-051c8995d14a
+md"""
+- Last Update: $(now())
+- Julia Version: $VERSION
+- ReinforcementLearning.jl Version: $([v.version for (k,v) in Pkg.dependencies() if v.name=="ReinforcementLearning"][1])
+"""
+
+# ╔═╡ 03852aa2-6099-11eb-39db-ffba5eeade98
+md"""
 The first step to apply algorithms in ReinforcementLearning.jl is to define the problem you want to solve in a recognizable way. Here we'll demonstrate how to write many different kinds of environments based on interfaces defined in `ReinforcementLearningBase.jl`
 
 The most commonly used interfaces to describe reinforcement learning tasks is [OpenAI/Gym](https://gym.openai.com/). Inspired by it, we expand those interfaces a little to utilize the multiple-dispatch in Julia and to cover multi-agent environments.
@@ -426,7 +442,7 @@ If all players can see the same state, then we say the `InformationStyle` of the
 md"""
 #### `DynamicStyle`
 
-All the environments we've seen so far are of `Sequential` style, meaning that at each step, only **ONE** player is allowed to take an action. Agains these are `Simultaneous` environments, all players take actions simultaneously and they can't see each other's action in advance. For simultaneous environments, they should only take a collection of actions from different players as input.
+All the environments we've seen so far were of `Sequential` style, meaning that at each step, only **ONE** player was allowed to take an action. Alternatively there are `Simultaneous` environments, where all the players take actions simultaneously without seeing each other's action in advance. Simultaneous environments must take a collection of actions from different players as input.
 """
 
 # ╔═╡ 6a58f464-60bb-11eb-12ab-592202a61d9f
@@ -461,10 +477,13 @@ chance_player(kp) in players(kp)
 md"""
 ## Examples
 
-Finally we've gone through all the details you need to know for how to write a customized environment. You're suggested to take a look at the examples provided in [ReinforcementLearningEnvironments.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl). Feel free to create an issue there if you're still not sure how to describe your problem with the interfaces defined in this package.
+Finally we've gone through all the details you need to know for how to write a customized environment. You're encouraged to take a look at the examples provided in [ReinforcementLearningEnvironments.jl](https://github.com/JuliaReinforcementLearning/ReinforcementLearningEnvironments.jl). Feel free to create an issue there if you're still not sure how to describe your problem with the interfaces defined in this package.
 """
 
 # ╔═╡ Cell order:
+# ╟─bed48ef6-62fb-11eb-327a-ed29787dda3c
+# ╟─dccad7c8-62fb-11eb-226f-393c73301bcb
+# ╟─e262295a-62fb-11eb-32c0-051c8995d14a
 # ╟─03852aa2-6099-11eb-39db-ffba5eeade98
 # ╠═5938a9a6-6099-11eb-1ac9-1fb12d9c9237
 # ╠═d4d6a2e0-6099-11eb-10ad-dd67c607ea0a

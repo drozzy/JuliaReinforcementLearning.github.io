@@ -20,7 +20,7 @@
    <link rel="stylesheet" href="/libs/highlight/github.min.css">
    
 
-  <title>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</title>
+  <title>An Introduction to ReinforcementLearning.jl: Design, Implementations and Thoughts</title>
 
   <!-- Bootstrap core CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -89,7 +89,7 @@
     </div>
 </nav>
 
-    <d-title><h1>An Introduction to ReinforcementLearning.jl: Design, Implementation and Thoughts</h1><p>Reinforcement learning has led to many breakthroughs during the last several years. A number of packages mainly written in Python exist that provide stable and feature rich implementations of deep reinforcement learning algorithms. However, writing a reusable package that is both <strong>instructional</strong> and <strong>efficient</strong> is still challenging. To address this, we introduce <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl">ReinforcementLearning.jl</a>, a package written in Julia which provides a collection of tools for reinforcement learning research. This blog aims to gain you a better understanding of the design decisions and implementation details behind this package. Hopefully, it will make your life easier to learn and apply different kinds of reinforcement learning algorithms.🤗</p>
+    <d-title><h1>An Introduction to ReinforcementLearning.jl: Design, Implementations and Thoughts</h1><p>Reinforcement learning has led to many breakthroughs during the last several years. A number of packages mainly written in Python exist that provide stable and feature rich implementations of deep reinforcement learning algorithms. However, writing a reusable package that is both <strong>instructional</strong> and <strong>efficient</strong> is still challenging. To address this, we introduce <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearning.jl">ReinforcementLearning.jl</a>, a package written in Julia which provides a collection of tools for reinforcement learning research. This blog aims to gain you a better understanding of the design decisions and implementation details behind this package. Hopefully, it will make your life easier to learn and apply different kinds of reinforcement learning algorithms.🤗</p>
 </d-title>
     <d-byline></d-byline>
     <hr class="franklin-toc-separator">
@@ -178,9 +178,9 @@
 <p>Figure 1: The general flow between a policy and an environment.</p>
 <p>A policy simply takes a look at the environment and yields an action. And an environment will modify its internal state once received an action. So for <em>continuing tasks</em>, we can describe the workflow with the following code:</p>
 <pre><code class="julia hljs"><span class="hljs-keyword">function</span> Base.run(policy, env)
-		<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
-		    env |&gt; policy |&gt; env
-		<span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        env |&gt; policy |&gt; env
+    <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>For <em>episodic tasks</em>, two extra methods must be implemented for the <code>env</code>:</p>
 <ul>
@@ -191,22 +191,22 @@
 </ul>
 <p>Then we have the following code:</p>
 <pre><code class="julia hljs"><span class="hljs-keyword">function</span> Base.run(policy, env)
-		<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
-				reset!(env)
-				<span class="hljs-keyword">while</span> !is_terminated(env)
-				    env |&gt; policy |&gt; env
-		    <span class="hljs-keyword">end</span>
-		<span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        reset!(env)
+        <span class="hljs-keyword">while</span> !is_terminated(env)
+            env |&gt; policy |&gt; env
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>In real world tasks, we never expect the workflow to run infinitely. Usually we will stop early after a number of steps/episodes or when the policy or environment meet some specific condition. Now let&#39;s introduce a <code>stop_condition</code> which examines <code>policy</code> and <code>env</code> after each step to control the workflow.</p>
 <pre><code class="julia hljs"><span class="hljs-keyword">function</span> Base.run(policy, env, stop_condition)
-		<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
-				reset!(env)
-				<span class="hljs-keyword">while</span> !is_terminated(env)
-				    env |&gt; policy |&gt; env
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        reset!(env)
+        <span class="hljs-keyword">while</span> !is_terminated(env)
+            env |&gt; policy |&gt; env
             stop_condition(policy, env) &amp;&amp; <span class="hljs-keyword">return</span>
-		    <span class="hljs-keyword">end</span>
-		<span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>Until now, a policy is still very general. We don&#39;t know it&#39;s actually updating or exploiting.  However, in most cases, if a policy needs to be updated during interactions with the environment, it needs a buffer to collect some necessary information and then use it to update its strategy at some time. So a special policy named <code>Agent</code>   is provided in our package to help update a policy.</p>
 <figure class="l-body text-center">
@@ -230,18 +230,18 @@
 </li>
 </ul>
 <pre><code class="julia hljs"><span class="hljs-keyword">function</span> Base.run(policy, env, stop_condition)
-		<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
-				reset!(env)
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        reset!(env)
         policy(PRE_EPISODE_STAGE, env)
-				<span class="hljs-keyword">while</span> !is_terminated(env)
+        <span class="hljs-keyword">while</span> !is_terminated(env)
             action = policy(env)
             policy(PRE_ACT_STAGE, env, action)
-				    env(action)
+            env(action)
             policy(POST_ACT_STAGE, env)
             stop_condition(policy, env) &amp;&amp; <span class="hljs-keyword">return</span>
-		    <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
         policy(POST_EPISODE_STAGE, env)
-		<span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>Note that by default, <code>&#40;policy::AbstractPolicy&#41;&#40;::AbstractStage, env&#41;</code> will do nothing and the workflow is simplified to the earlier version. For the specific policy <code>Agent</code>, it will update its internal <code>policy</code> and <code>trajectory</code> at each stage:</p>
 <ul>
@@ -256,22 +256,22 @@
 <p>Now the policy can play happily with the environment. We would also want to inject some meaningful actions in the meantime. For example, collecting the total reward of each episode, logging the loss of each updating, saving the policy periodically, modifying some hyperparameters on the fly and so on. So a general callback is introduced. </p>
 <pre><code class="julia hljs"><span class="hljs-keyword">function</span> Base.run(policy, env, stop_condition, hook)
     hook(PRE_EXPERIMENT_STAGE, env)
-		<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
-				reset!(env)
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+        reset!(env)
         policy(PRE_EPISODE_STAGE, env)
         hook(PRE_EPISODE_STAGE, env)
-				<span class="hljs-keyword">while</span> !is_terminated(env)
+        <span class="hljs-keyword">while</span> !is_terminated(env)
             action = policy(env)
             policy(PRE_ACT_STAGE, env, action)
             hook(PRE_ACT_STAGE, env, action)
-				    env(action)
+            env(action)
             policy(POST_ACT_STAGE, env)
             hook(POST_ACT_STAGE, env)
             stop_condition(policy, env) &amp;&amp; <span class="hljs-keyword">return</span>
-		    <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
         policy(POST_EPISODE_STAGE, env)
         hook(POST_EPISODE_STAGE, env)
-		<span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></code></pre>
 <p>Except for some corner cases, the code above is very close to <a href="https://github.com/JuliaReinforcementLearning/ReinforcementLearningCore.jl/blob/master/src/core/run.jl">our implementation</a>.</p>
 <h3 id="22_trajectory"><a href="#22_trajectory" class="header-anchor">2.2 Trajectory</a></h3>

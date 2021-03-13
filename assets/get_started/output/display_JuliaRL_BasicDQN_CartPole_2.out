@@ -63,7 +63,7 @@ ReinforcementLearningCore.Experiment
 │     ├─ 2
 │     │  └─ ReinforcementLearningCore.TimePerStep
 │     │     ├─ times => 0-element CircularArrayBuffers.CircularArrayBuffer{Float64,1}
-│     │     └─ t => 1019086108611
+│     │     └─ t => 937813468822
 │     ├─ 3
 │     │  └─ ReinforcementLearningCore.DoEveryNStep
 │     │     ├─ f => ReinforcementLearningZoo.var"#334#338"
